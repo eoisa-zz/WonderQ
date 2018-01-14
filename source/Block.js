@@ -18,7 +18,8 @@ class Block {
             String(this.timestamp) +
             String(this.data) +
             String(this.blockStatus) +
-            String(this.previousHash)).digest('hex')
+            String(this.previousHash))
+        return sha.digest('hex')
     }
 
     createGenesis() {

@@ -25,12 +25,16 @@ app.post('/write', (req, res) => {
     let data = req.body;
     let leBlock = block.newBlock(blockchain[blockchain.length - 1], data, status);
     blockchain.push(leBlock);
-    res.json({'Message id': leBlock.hash});
+    res.send('Message ID: ' + leBlock.hash);
 });
 
 //  Whenever a consumer polls WonderQ for new messages, it gets
 //  those messages which are NOT processed by any other consumer
 //  that may be concurrently accessing WonderQ.
 app.get('/poll', (req, res) =>{
+    console.log(blockchain.length)
+});
+
+app.get('/blocks', (req, res) =>{
     console.log(blockchain.length)
 });
