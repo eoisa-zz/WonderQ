@@ -50,7 +50,7 @@ app.get('/poll', (req, res) => {
         }
     });
     res.send(JSON.stringify(outbound)).then(response => {
-        if(response.statusCode !== 200 || response.ti){
+        if(response.statusCode !== 200){
             outbound.forEach(message => {
                 let status = 'PRODUCED';
                 let id = message.id;
