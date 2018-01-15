@@ -1,8 +1,12 @@
 'use strict';
 const crypto = require('crypto');
+const config = require('../config');
+
 
 class Block {
-    constructor(index, timestamp, data, blockStatus, previousHash) {
+    constructor(__id__, host, index, timestamp, data, blockStatus, previousHash) {
+        this.__id__ = __id__;
+        this.host = host;
         this.index = index;
         this.timestamp = timestamp;
         this.data = data;
@@ -14,24 +18,31 @@ class Block {
     hashBlock() {
         let sha = crypto.createHash('sha256');
         sha.update(
+            String(this.__id__ ) +
+            String(this.host ) +
             String(this.index) +
             String(this.timestamp) +
             String(this.data) +
             String(this.blockStatus) +
-            String(this.previousHash))
+            String(this.previousHash));
         return sha.digest('hex')
     }
 
     createGenesis() {
-        return new Block(0,
+        return new Block(
+            this.__id__,
+            this.host,
+            0,
             Date.now(),
             'Genesis Block',
-            'ACTIVE',
+            'GENESIS',
             0)
     }
 
-    newBlock(oldBlock, ledgerData, currentStatus) {
+    newBlock(id, host, oldBlock, ledgerData, currentStatus) {
         return new Block(
+            id,
+            host,
             oldBlock.index + 1,
             Date.now(),
             ledgerData,
